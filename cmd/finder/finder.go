@@ -29,8 +29,10 @@ func readIndex(path string) (index runeweb.Index) {
 	return index
 }
 
-func filter(index runeweb.Index, query []string) (result runeset.Set) {
-	for i, word := range query {
+func filter(index runeweb.Index, query string) (result runeset.Set) {
+	query = strings.Replace(query, "-", " ", -1)
+	words := strings.Fields(query)
+	for i, word := range words {
 		word = strings.ToUpper(word)
 		chars, found := index.Words[word]
 		if !found {
@@ -63,6 +65,6 @@ func display(index runeweb.Index, s runeset.Set) {
 
 func main() {
 	index := readIndex(indexPath)
-	result := filter(index, os.Args[1:])
+	result := filter(index, strings.Join(os.Args[1:], " "))
 	display(index, result)
 }

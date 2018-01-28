@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"reflect"
-	"strings"
 	"testing"
 
 	"github.com/standupdev/runeset"
@@ -18,22 +17,31 @@ func init() {
 
 func TestFilter(t *testing.T) {
 	var testCases = []struct {
-		query []string
+		query string
 		want  runeset.Set
 	}{
-		{[]string{"ordinal"}, runeset.Make('ª', 'º')},
-		{[]string{"fraction", "eighths"}, runeset.Make('⅜', '⅝', '⅞')},
-		{[]string{"NoSuchRune"}, runeset.Set{}},
+		{"ordinal", runeset.Make('ª', 'º')},
+		{"fraction eighths", runeset.Make('⅜', '⅝', '⅞')},
+		{"NoSuchRune", runeset.Set{}},
 	}
 	for _, tc := range testCases {
-		label := strings.Join(tc.query, " ")
-		t.Run(label, func(t *testing.T) {
+		t.Run(tc.query, func(t *testing.T) {
 			got := filter(index, tc.query)
 			if !reflect.DeepEqual(tc.want, got) {
 				t.Errorf("query: %q\twant: %q\tgot: %q",
 					tc.query, tc.want, got)
 			}
 		})
+	}
+}
+
+func TestFilter_hyphenatedQuery(t *testing.T) {
+	query := "HYPHEN-MINUS"
+	want := '-'
+	got := filter(index, query)
+	if len(got) < 6 || !got.Has(want) {
+		t.Errorf("query: %q\t%q absent, len(got) == %d",
+			query, want, len(got))
 	}
 }
 
