@@ -8,18 +8,14 @@ import (
 	"strings"
 
 	"github.com/standupdev/runeset"
+	"github.com/standupdev/runeweb"
 )
 
 const indexPath = "runeweb_index.gob"
 
 var logger = log.New(os.Stderr, "", log.Lshortfile)
 
-type RuneIndex struct {
-	Chars map[rune]string
-	Words map[string]runeset.Set
-}
-
-func readIndex(path string) (index RuneIndex) {
+func readIndex(path string) (index runeweb.Index) {
 	indexFile, err := os.Open(path)
 	if err != nil {
 		logger.Fatalln(err)
@@ -33,7 +29,7 @@ func readIndex(path string) (index RuneIndex) {
 	return index
 }
 
-func query(index RuneIndex, words []string) (result runeset.Set) {
+func query(index runeweb.Index, words []string) (result runeset.Set) {
 	for i, arg := range os.Args[1:] {
 		word := strings.ToUpper(arg)
 		chars, _ := index.Words[word]
@@ -49,7 +45,7 @@ func query(index RuneIndex, words []string) (result runeset.Set) {
 	return result
 }
 
-func display(index RuneIndex, s runeset.Set) {
+func display(index runeweb.Index, s runeset.Set) {
 	count := 0
 	for _, c := range s.Sorted() {
 		name, found := index.Chars[c]
