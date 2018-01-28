@@ -21,7 +21,7 @@ const (
 	indexPath       = "runeweb_index.gob"
 )
 
-type runeIndex struct {
+type RuneIndex struct {
 	Chars map[rune]string
 	Words map[string]runeset.Set
 }
@@ -64,7 +64,7 @@ func parseLine(line string) (rr runeRecord) {
 	return rr
 }
 
-func buildIndex(input io.Reader) (index runeIndex) {
+func BuildIndex(input io.Reader) (index RuneIndex) {
 	index.Chars = map[rune]string{}
 	index.Words = map[string]runeset.Set{}
 	scanner := bufio.NewScanner(input)
@@ -89,7 +89,7 @@ func buildIndex(input io.Reader) (index runeIndex) {
 	return index
 }
 
-func saveIndex(index runeIndex, indexPath string) {
+func saveIndex(index RuneIndex, indexPath string) {
 	indexFile, err := os.Create(indexPath)
 	if err != nil {
 		log.Fatal("Unable to create index file.")
@@ -152,5 +152,5 @@ func main() {
 		log.Fatal(err.Error())
 	}
 	defer ucd.Close()
-	saveIndex(buildIndex(ucd), indexPath)
+	saveIndex(BuildIndex(ucd), indexPath)
 }

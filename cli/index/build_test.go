@@ -66,7 +66,7 @@ const twoLines = `
 `
 
 func TestBuildIndex_twoLines(t *testing.T) {
-	index := buildIndex(strings.NewReader(twoLines))
+	index := BuildIndex(strings.NewReader(twoLines))
 	wantChars := map[rune]string{
 		'=': "EQUALS SIGN",
 		'>': "GREATER-THAN SIGN",
@@ -92,7 +92,7 @@ const threeLines = `
 `
 
 func TestBuildIndex_threeLines(t *testing.T) {
-	index := buildIndex(strings.NewReader(threeLines))
+	index := BuildIndex(strings.NewReader(threeLines))
 	wantChars := map[rune]string{
 		'A': "LATIN CAPITAL LETTER A",
 		'B': "LATIN CAPITAL LETTER B",
