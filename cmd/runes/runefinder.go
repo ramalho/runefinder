@@ -1,27 +1,28 @@
 package main
 
 import (
+	"bytes"
 	"encoding/gob"
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/standupdev/runeset"
 	"github.com/standupdev/runeweb"
 )
 
-const indexPath = "runeweb_index.gob"
+const indexPath = "data/runeweb_index.gob"
 
 var logger = log.New(os.Stderr, "", log.Lshortfile)
 
 func readIndex(path string) (index runeweb.Index) {
-	indexFile, err := os.Open(path)
+	indexData, err := Asset(indexPath)
 	if err != nil {
 		logger.Fatalln(err)
 	}
-	defer indexFile.Close()
-	decoder := gob.NewDecoder(indexFile)
+	decoder := gob.NewDecoder(bytes.NewReader(indexData))
 	err = decoder.Decode(&index)
 	if err != nil {
 		logger.Fatalln(err)
@@ -60,7 +61,15 @@ func display(index runeweb.Index, s runeset.Set) {
 		fmt.Printf("U+%04X\t%[1]c\t%s\n", c, name)
 		count++
 	}
-	fmt.Println(count, "characters found")
+	plural := "s"
+	if count < 2 {
+		plural = ""
+	}
+	countMsg := "no"
+	if count > 0 {
+		countMsg = strconv.Itoa(count)
+	}
+	fmt.Printf("%s character%s found\n", countMsg, plural)
 }
 
 func main() {
