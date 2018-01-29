@@ -33,7 +33,7 @@ U+1F63D	😽	KISSING CAT FACE WITH CLOSED EYES
 
 ## Building
 
-The `runes` project uses the `go-bindata` tool to bundle the Unicode database in the executable. To compile `runes`:
+To compile `runes`, you need the `go-bindata` tool to bundle the Unicode database in the executable. To compile `runes`:
 
 ### 1 Get `go-bindata`
 
@@ -53,7 +53,7 @@ $ ls -la bindata.go
 
 ### 3 Build and enjoy!
 
-This produces the `runes` self-contained executable:
+This compiles the `runes` self-contained executable:
 
 ```
 $ go build
@@ -62,6 +62,5 @@ $ ls -l runes
 $ ./runes party
 U+1F389	🎉	PARTY POPPER
 1 character found
-
 ```
 

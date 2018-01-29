@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/standupdev/runeset"
@@ -61,15 +60,16 @@ func display(index runeweb.Index, s runeset.Set) {
 		fmt.Printf("U+%04X\t%[1]c\t%s\n", c, name)
 		count++
 	}
-	plural := "s"
-	if count < 2 {
-		plural = ""
+	var msg string
+	switch count {
+	case 0:
+		msg = "no character found"
+	case 1:
+		msg = "1 character found"
+	default:
+		msg = fmt.Sprintf("%d characters found", count)
 	}
-	countMsg := "no"
-	if count > 0 {
-		countMsg = strconv.Itoa(count)
-	}
-	fmt.Printf("%s character%s found\n", countMsg, plural)
+	fmt.Println(msg)
 }
 
 func main() {
