@@ -1,3 +1,10 @@
+# go-bindata files
+bindata.go
+data/
+
+# IDEs
+.idea
+
 # Binaries for programs and plugins
 *.exe
 *.dll
