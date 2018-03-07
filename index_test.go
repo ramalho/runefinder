@@ -1,4 +1,4 @@
-package main
+package runeweb
 
 import (
 	"github.com/standupdev/runeset"
@@ -110,5 +110,34 @@ func TestBuildIndex_threeLines(t *testing.T) {
 	}
 	if !reflect.DeepEqual(wantWords, index.Words) {
 		t.Errorf("want: %v\n got: %v", wantWords, index.Words)
+	}
+}
+
+var registeredSign rune = 0xAE // ®
+
+
+func TestUnicodeDataIndex_Chars(t *testing.T) {
+	index := BuildIndex()
+	wantChars := 30000
+	if len(index.Chars) < wantChars {
+		t.Errorf("len(index.Chars) < %d\t got: %d", wantChars, len(index.Chars))
+	}
+	wantName := "REGISTERED SIGN (REGISTERED TRADE MARK SIGN)"
+	gotName := index.Chars[registeredSign]
+	if wantName != gotName {
+		t.Errorf("index.Chars[%q]\nwant: %q\n got: %q", registeredSign, wantName, gotName)
+	}
+}
+
+func TestUnicodeDataIndex_Words(t *testing.T) {
+	index := BuildIndex()
+	wantWords := 10000
+	if len(index.Words) < wantWords {
+		t.Errorf("len(index.Chars) < %d\t got: %d", wantWords, len(index.Words))
+	}
+	wantSet := runeset.Make(registeredSign)
+	gotSet := index.Words["REGISTERED"]
+	if !reflect.DeepEqual(wantSet, gotSet) {
+		t.Errorf("want: %v\t got: %v", wantSet, gotSet)
 	}
 }

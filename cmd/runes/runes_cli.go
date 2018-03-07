@@ -35,7 +35,7 @@ func display(index runeweb.Index, s runeset.Set) {
 }
 
 func main() {
-	index := runeweb.ReadIndex()
+	index := runeweb.BuildIndex()
 	result := runeweb.Filter(index, strings.Join(os.Args[1:], " "))
 	display(index, result)
 }

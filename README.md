@@ -23,13 +23,27 @@ $ ls -la bindata.go
 
 ### 3 Build and enjoy!
 
-This compiles the `runes` self-contained executable:
+Currently, the only buildable executable is the `runes` command, located in the `cmd/runes` directory.
+
+To compile the `runes` command:
 
 ```
+$ cd cmd/runes/
 $ go build
-$ ls -l runes
--rwxr-xr-x  1 lramalho  staff  3205232 Jan 29 18:17 runes
+$ ls -lh runes
+-rwxrwxr-x 1 luciano luciano 2,6M Mar  7 00:16 runes
+```
+
+To use `runes`, provide one or more words to search:
+
+```
 $ ./runes party
 U+1F389	🎉	PARTY POPPER
 1 character found
+
+$ ./runes cat eyes
+U+1F638	😸	GRINNING CAT FACE WITH SMILING EYES
+U+1F63B	😻	SMILING CAT FACE WITH HEART-SHAPED EYES
+U+1F63D	😽	KISSING CAT FACE WITH CLOSED EYES
+3 characters found
 ```

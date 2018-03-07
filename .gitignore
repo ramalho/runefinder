@@ -1,6 +1,5 @@
 # go-bindata files
 bindata.go
-data/
 
 # IDEs
 .idea

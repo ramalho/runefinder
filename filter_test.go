@@ -10,7 +10,7 @@ import (
 var index Index
 
 func init() {
-	index = ReadIndex()
+	index = BuildIndex()
 }
 
 
