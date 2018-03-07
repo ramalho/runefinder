@@ -16,9 +16,9 @@ $ go get -u github.com/jteeuwen/go-bindata/...
 This produces a `bindata.go` source file:
 
 ```
-$ go-bindata data/
-$ ls -la bindata.go
--rw-r--r--  1 lramalho  staff  3123912 Jan 29 18:09 bindata.go
+$ go-bindata -pkg runeweb data/
+$ ls -lh bindata.go 
+-rw-rw-r-- 1 luciano luciano 1014K Mar  7 00:10 bindata.go
 ```
 
 ### 3 Build and enjoy!
@@ -31,7 +31,7 @@ To compile the `runes` command:
 $ cd cmd/runes/
 $ go build
 $ ls -lh runes
--rwxrwxr-x 1 luciano luciano 2,6M Mar  7 00:16 runes
+-rwxrwxr-x 1 luciano luciano 2,6M Mar  7 00:11 runes
 ```
 
 To use `runes`, provide one or more words to search:
