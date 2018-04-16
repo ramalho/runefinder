@@ -22,6 +22,7 @@ func TestFilter(t *testing.T) {
 		{"Registered", runeset.Make('®')},
 		{"ORDINAL", runeset.Make('ª', 'º')},
 		{"fraction eighths", runeset.Make('⅜', '⅝', '⅞')},
+		{"fraction eighths bang", runeset.Set{}},
 		{"fraction eighths five", runeset.Make('⅝')},
 		{"NoSuchRune", runeset.Set{}},
 	}
