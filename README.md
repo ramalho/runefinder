@@ -13,7 +13,7 @@ $ go get -u github.com/jteeuwen/go-bindata/...
 
 ### 2 Use it to generate the data file
 
-This produces a `bindata.go` source file:
+This step produces a `bindata.go` source file:
 
 ```
 $ go-bindata -pkg runeweb data/
