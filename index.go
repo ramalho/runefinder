@@ -1,14 +1,14 @@
 package runeweb
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
+	"github.com/standupdev/runeset"
 	"io"
 	"log"
-	"strings"
-	"github.com/standupdev/runeset"
-	"bufio"
 	"strconv"
-	"bytes"
+	"strings"
 )
 
 // Index holds a mapping of Unicode characters to names and a mapping

@@ -115,7 +115,6 @@ func TestBuildIndex_threeLines(t *testing.T) {
 
 var registeredSign rune = 0xAE // ®
 
-
 func TestUnicodeDataIndex_Chars(t *testing.T) {
 	index := BuildIndex()
 	wantChars := 30000
