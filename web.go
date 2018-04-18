@@ -1,20 +1,17 @@
-package main
+package runefinder
 
 import (
 	"fmt"
-	"github.com/standupdev/runefinder"
 	"github.com/standupdev/runeset"
 	"html/template"
-	"log"
 	"net/http"
 	"strings"
 )
 
 var (
-	hostAddr = "localhost:8000"
-	form     = template.Must(template.New("form").Parse(page))
-	index    = runefinder.BuildIndex()
-	links    = makeLinks(sampleWords)
+	form  = template.Must(template.New("form").Parse(page))
+	index = BuildIndex()
+	links = makeLinks(sampleWords)
 )
 
 type Link struct {
@@ -68,12 +65,12 @@ func makeResults(chars runeset.Set) []RuneRecord {
 	return result
 }
 
-func home(w http.ResponseWriter, req *http.Request) {
+func Home(w http.ResponseWriter, req *http.Request) {
 	chars := runeset.Set{}
 	msg := ""
 	query := strings.TrimSpace(req.URL.Query().Get("q"))
 	if len(query) > 0 {
-		chars = runefinder.Filter(index, query)
+		chars = Filter(index, query)
 		msg = makeMessage(len(chars))
 	}
 	data := struct {
@@ -88,11 +85,6 @@ func home(w http.ResponseWriter, req *http.Request) {
 		Result:  makeResults(chars),
 	}
 	form.Execute(w, data)
-}
-
-func main() {
-	fmt.Println("Serving on:", hostAddr)
-	log.Fatal(http.ListenAndServe(hostAddr, http.HandlerFunc(home)))
 }
 
 const (
