@@ -46,3 +46,22 @@ U+1F63B	😻	SMILING CAT FACE WITH HEART-SHAPED EYES
 U+1F63D	😽	KISSING CAT FACE WITH CLOSED EYES
 3 characters found
 ```
+
+
+### 4 Optional  Web interface
+
+The `runeweb` command starts a local HTTP server on port 8000 offering a simple Web
+interface for searching. This is the best way to use `runefinder` on Windows until
+Microsoft improves the Unicode coverage of the fonts used in in cmd.exe or PowerShell.
+
+Run the server:
+
+```
+$ cd cmd/runeweb/
+$ go run runeweb.go
+Serving on: localhost:8000
+```
+
+Open `http://localhost:8000` on your browser and search:
+
+![Runefinder HTTP interface](https://github.com/standupdev/runefinder/raw/master/img/runefinder-runeweb.png "Runefinder HTTP interface")
