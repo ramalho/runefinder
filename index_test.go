@@ -1,4 +1,4 @@
-package runeweb
+package runefinder
 
 import (
 	"github.com/standupdev/runeset"

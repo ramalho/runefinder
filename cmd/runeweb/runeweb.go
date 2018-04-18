@@ -2,19 +2,18 @@ package main
 
 import (
 	"fmt"
+	"github.com/standupdev/runefinder"
 	"github.com/standupdev/runeset"
-	"github.com/standupdev/runeweb"
 	"html/template"
 	"log"
 	"net/http"
-	"sort"
 	"strings"
 )
 
 var (
 	hostAddr = "localhost:8000"
 	form     = template.Must(template.New("form").Parse(page))
-	index    = runeweb.BuildIndex()
+	index    = runefinder.BuildIndex()
 	links    = makeLinks(sampleWords)
 )
 
@@ -58,16 +57,10 @@ type RuneRecord struct {
 }
 
 func makeResults(chars runeset.Set) []RuneRecord {
-	codes := []int{}
-	for char := range chars {
-		codes = append(codes, int(char))
-	}
-	sort.Ints(codes)
 	result := []RuneRecord{}
-	for _, code := range codes {
-		char := rune(code)
+	for _, char := range chars.Sorted() {
 		result = append(result, RuneRecord{
-			Code: fmt.Sprintf("U+%04X", code),
+			Code: fmt.Sprintf("U+%04X", char),
 			Char: string(char),
 			Name: getName(char),
 		})
@@ -80,7 +73,7 @@ func home(w http.ResponseWriter, req *http.Request) {
 	msg := ""
 	query := strings.TrimSpace(req.URL.Query().Get("q"))
 	if len(query) > 0 {
-		chars = runeweb.Filter(index, query)
+		chars = runefinder.Filter(index, query)
 		msg = makeMessage(len(chars))
 	}
 	data := struct {
@@ -108,7 +101,14 @@ const (
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>RuneWeb</title>
+    <title>Runefinder</title>
+	<style>
+      body {font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
+	  table {font-family: "Lucida Console", Monaco, monospace; text-align: left; min-width: 300px}
+      td.code {min-width: 40px; text-align: right;}
+      td.char {min-width: 50px; text-align: center;}
+	  caption {background: lightgray; }
+	</style>
   </head>
   <body>
     <p>
@@ -125,13 +125,13 @@ const (
 
     <table>
       <caption>{{.Message}}</caption>
-        {{range .Result}}
-          <tr>
-            <td>{{.Code}}</td>
-            <td>{{.Char}}</td>
-            <td>{{.Name}}</td>
-          </tr>
-		{{end}}
+      {{range .Result}}
+        <tr>
+          <td class="code">{{.Code}}</td>
+          <td class="char">{{.Char}}</td>
+          <td>{{.Name}}</td>
+        </tr>
+      {{end}}
     </table>
   </body>
 </html>
@@ -139,18 +139,15 @@ const (
 	sampleWords = `
 bismillah
 box
-Braille
 cat
 chess
 circle
 circled
-digit
 Egyptian
-Ethiopic
 face
 hexagram
+key
 Malayalam
-mark
 operator
 Roman
 symbol`

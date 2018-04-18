@@ -1,9 +1,10 @@
-# runeweb
-A Web service for finding Unicode characters by name
+# runefinder
+
+A tool for finding Unicode characters by name. Command-line and Web interfaces.
 
 ## Building
 
-To compile `runeweb`, you need the `go-bindata` tool to bundle the Unicode database in the executable. To compile `runes`:
+To compile `runefinder`, you need the `go-bindata` tool to bundle the Unicode database in the executable. To compile `runes`:
 
 ### 1 Get `go-bindata`
 
@@ -16,16 +17,14 @@ $ go get -u github.com/jteeuwen/go-bindata/...
 This step produces a `bindata.go` source file:
 
 ```
-$ go-bindata -pkg runeweb data/
+$ go-bindata -pkg runefinder data/
 $ ls -lh bindata.go 
 -rw-rw-r-- 1 luciano luciano 1014K Mar  7 00:10 bindata.go
 ```
 
 ### 3 Build and enjoy!
 
-Currently, the only buildable executable is the `runes` command, located in the `cmd/runes` directory.
-
-To compile the `runes` command:
+To compile the `runes` command, in the `cmd/runes` directory:
 
 ```
 $ cd cmd/runes/

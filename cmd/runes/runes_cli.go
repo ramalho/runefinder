@@ -6,21 +6,18 @@ import (
 	"os"
 	"strings"
 
+	"github.com/standupdev/runefinder"
 	"github.com/standupdev/runeset"
-	"github.com/standupdev/runeweb"
 )
 
-var logger = log.New(os.Stderr, "", log.Lshortfile)
-
-func display(index runeweb.Index, s runeset.Set) {
-	count := 0
+func display(index runefinder.Index, s runeset.Set) {
+	count := len(s)
 	for _, c := range s.Sorted() {
 		name, found := index.Chars[c]
 		if !found {
 			name = "(no name)"
 		}
 		fmt.Printf("U+%04X\t%[1]c\t%s\n", c, name)
-		count++
 	}
 	var msg string
 	switch count {
@@ -35,7 +32,7 @@ func display(index runeweb.Index, s runeset.Set) {
 }
 
 func main() {
-	index := runeweb.BuildIndex()
-	result := runeweb.Filter(index, strings.Join(os.Args[1:], " "))
+	index := runefinder.BuildIndex()
+	result := runefinder.Filter(index, strings.Join(os.Args[1:], " "))
 	display(index, result)
 }
