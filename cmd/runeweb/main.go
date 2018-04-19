@@ -11,5 +11,6 @@ const hostAddr = "localhost:8000"
 
 func main() {
 	fmt.Println("Serving on:", hostAddr)
-	log.Fatal(http.ListenAndServe(hostAddr, http.HandlerFunc(runefinder.Home)))
+	handler := http.HandlerFunc(runefinder.Home)
+	log.Fatal(http.ListenAndServe(hostAddr, handler))
 }

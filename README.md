@@ -9,7 +9,7 @@ To compile `runefinder`, you need the `go-bindata` tool to bundle the Unicode da
 ### 1 Get `go-bindata`
 
 ```
-$ go get -u github.com/jteeuwen/go-bindata/...
+$ go get -u github.com/masters-of-cats/go-bindata/...
 ```
 
 ### 2 Use it to generate the data file

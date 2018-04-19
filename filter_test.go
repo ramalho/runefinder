@@ -7,12 +7,6 @@ import (
 	"github.com/standupdev/runeset"
 )
 
-var index Index
-
-func init() {
-	index = BuildIndex()
-}
-
 func TestFilter(t *testing.T) {
 	var testCases = []struct {
 		query string

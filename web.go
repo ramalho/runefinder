@@ -8,10 +8,17 @@ import (
 	"strings"
 )
 
+const (
+	sampleWords = `bismillah box cat chess circle circled 
+                   Egyptian face hexagram key Malayalam Roman symbol`
+	formPath = "data/form.html"
+)
+
 var (
-	form  = template.Must(template.New("form").Parse(page))
-	index = BuildIndex()
-	links = makeLinks(sampleWords)
+	formHTML = string(MustAsset(formPath))
+	form     = template.Must(template.New("form").Parse(formHTML))
+	index    = BuildIndex()
+	links    = makeLinks(sampleWords)
 )
 
 type Link struct {
@@ -86,61 +93,3 @@ func Home(w http.ResponseWriter, req *http.Request) {
 	}
 	form.Execute(w, data)
 }
-
-const (
-	page = `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Runefinder</title>
-	<style>
-      body {font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
-	  table {font-family: "Lucida Console", Monaco, monospace; text-align: left; min-width: 300px}
-      td.code {min-width: 40px; text-align: right;}
-      td.char {min-width: 50px; text-align: center;}
-	  caption {background: lightgray; }
-	</style>
-  </head>
-  <body>
-    <p>
-      <form action="/">
-        <input type="search" name="q" value="{{.Query}}">
-        <input type="submit" value="find">
-	    Examples:
-		{{range .Links}}
-			<a href="{{.Location}}" 
-               title="find &quot;{{.Text}}&quot;">{{.Text}}</a>
-		{{end}}
-      </form>
-    </p>
-
-    <table>
-      <caption>{{.Message}}</caption>
-      {{range .Result}}
-        <tr>
-          <td class="code">{{.Code}}</td>
-          <td class="char">{{.Char}}</td>
-          <td>{{.Name}}</td>
-        </tr>
-      {{end}}
-    </table>
-  </body>
-</html>
-`
-	sampleWords = `
-bismillah
-box
-cat
-chess
-circle
-circled
-Egyptian
-face
-hexagram
-key
-Malayalam
-operator
-Roman
-symbol`
-)
