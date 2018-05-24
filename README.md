@@ -18,7 +18,7 @@ This step produces a `bindata.go` source file:
 
 ```
 $ go-bindata -pkg runefinder data/
-$ ls -lh bindata.go 
+$ ls -lh bindata.go
 -rw-rw-r-- 1 luciano luciano 1014K Mar  7 00:10 bindata.go
 ```
 
@@ -65,3 +65,10 @@ Serving on: localhost:8000
 Open `http://localhost:8000` on your browser and search:
 
 ![Runefinder HTTP interface](https://github.com/standupdev/runefinder/raw/master/img/runefinder-runeweb.png "Runefinder HTTP interface")
+
+
+### 5 Web interface on Google App Engine
+
+The `appengine/` directory has the `main.go` and configuration files for running Runefinder on the Google App Engine platform.
+
+Link to running app: [runefinder2018.appspot.com](https://runefinder2018.appspot.com/)

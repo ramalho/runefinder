@@ -2,7 +2,7 @@
 
 A simple Web app for finding Unicode characters by name. Runs on Google AppEngine.
 
-See it online: [runefinder2018.appspot.com/](https://runefinder2018.appspot.com/)
+See it online: [runefinder2018.appspot.com](https://runefinder2018.appspot.com/)
 
 
 ## Local testing
