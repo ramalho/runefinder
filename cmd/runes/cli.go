@@ -7,15 +7,13 @@ import (
 
 	"github.com/standupdev/runefinder"
 	"github.com/standupdev/runeset"
+	"golang.org/x/text/unicode/runenames"
 )
 
-func display(index runefinder.Index, s runeset.Set) {
+func display(s runeset.Set) {
 	count := len(s)
 	for _, c := range s.Sorted() {
-		name, found := index.Chars[c]
-		if !found {
-			name = "(no name)"
-		}
+		name := runenames.Name(c)
 		fmt.Printf("U+%04X\t%[1]c\t%s\n", c, name)
 	}
 	var msg string
@@ -33,5 +31,5 @@ func display(index runefinder.Index, s runeset.Set) {
 func main() {
 	index := runefinder.BuildIndex()
 	result := runefinder.Filter(index, strings.Join(os.Args[1:], " "))
-	display(index, result)
+	display(result)
 }

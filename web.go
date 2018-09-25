@@ -2,23 +2,21 @@ package runefinder
 
 import (
 	"fmt"
-	"github.com/standupdev/runeset"
 	"html/template"
 	"net/http"
 	"strings"
+
+	"github.com/standupdev/runeset"
+	"golang.org/x/text/unicode/runenames"
 )
 
-const (
-	sampleWords = `bismillah box cat chess circle circled 
-                   Egyptian face hexagram key Malayalam Roman symbol`
-	formPath = "data/form.html"
-)
+const sampleWords = `bismillah box cat chess circle circled 
+                     Egyptian face hexagram key Malayalam Roman symbol`
 
 var (
-	formHTML = string(MustAsset(formPath))
-	form     = template.Must(template.New("form").Parse(formHTML))
-	index    = BuildIndex()
-	links    = makeLinks(sampleWords)
+	form  = template.Must(template.New("form").Parse(formHTML))
+	index = BuildIndex()
+	links = makeLinks(sampleWords)
 )
 
 type Link struct {
@@ -47,8 +45,8 @@ func makeMessage(count int) string {
 }
 
 func getName(char rune) string {
-	name, found := index.Chars[char]
-	if !found {
+	name := runenames.Name(char)
+	if len(name) == 0 {
 		name = "(no name)"
 	}
 	return name
@@ -93,3 +91,47 @@ func Home(w http.ResponseWriter, req *http.Request) {
 	}
 	form.Execute(w, data)
 }
+
+const formHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Runefinder</title>
+    <style>
+        body {font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
+        table {font-family: "Lucida Console", "Monaco", monospace;
+               text-align: left; min-width: 300px}
+        td.code {min-width: 40px; text-align: right;}
+        td.char {min-width: 50px; text-align: center;}
+        caption {background: lightgray; }
+    </style>
+</head>
+<body>
+<a href="https://github.com/standupdev/runefinder"><img
+        style="position: absolute; top: 0; right: 0; border: 0;"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+        alt="Fork me on GitHub"></a>
+<p>
+<form action="/">
+    <input type="search" name="q" value="{{.Query}}">
+    <input type="submit" value="find">
+    Examples:
+{{range .Links}}
+    <a href="{{.Location}}" title="find &quot;{{.Text}}&quot;">{{.Text}}</a>
+{{end}}
+</form>
+</p>
+
+<table>
+    <caption>{{.Message}}</caption>
+{{range .Result}}
+    <tr>
+        <td class="code">{{.Code}}</td>
+        <td class="char">{{.Char}}</td>
+        <td>{{.Name}}</td>
+    </tr>
+{{end}}
+</table>
+</body>
+</html>`

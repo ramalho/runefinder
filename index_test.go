@@ -3,7 +3,6 @@ package runefinder
 import (
 	"github.com/standupdev/runeset"
 	"reflect"
-	"strings"
 	"testing"
 )
 
@@ -27,77 +26,48 @@ func TestContains(t *testing.T) {
 	}
 }
 
-func TestParseLine(t *testing.T) {
+func TestParseName(t *testing.T) {
 	var testCases = []struct {
-		line  string
-		char  rune
 		name  string
 		words []string
 	}{
-		{"0021;EXCLAMATION MARK;Po;0;ON;;;;;N;;;;;",
-			'!', "EXCLAMATION MARK",
+		{"EXCLAMATION MARK",
 			[]string{"EXCLAMATION", "MARK"}},
-		{"002D;HYPHEN-MINUS;Pd;0;ES;;;;;N;;;;;",
-			'-', "HYPHEN-MINUS",
+		{"HYPHEN-MINUS",
 			[]string{"HYPHEN", "MINUS"}},
-		{"0027;APOSTROPHE;Po;0;ON;;;;;N;APOSTROPHE-QUOTE;;;",
-			'\'', "APOSTROPHE (APOSTROPHE-QUOTE)",
-			[]string{"APOSTROPHE", "QUOTE"}},
-		{"002F;SOLIDUS;Po;0;CS;;;;;N;SLASH;;;;",
-			'/', "SOLIDUS (SLASH)",
-			[]string{"SOLIDUS", "SLASH"}},
 	}
 	for _, tc := range testCases {
-		t.Run("case "+string(tc.char), func(t *testing.T) {
-			rr := parseLine(tc.line)
-			if rr.char != tc.char || rr.name != tc.name ||
-				!reflect.DeepEqual(rr.words, tc.words) {
-				t.Errorf("\nParseLine(%q)\nwant -> (%q, %q, %q)\ngot  -> (%q, %q, %q)",
-					tc.line, tc.char, tc.name, tc.words, rr.char, rr.name, rr.words)
+		t.Run(tc.name, func(t *testing.T) {
+			got := parseName(tc.name)
+			if !reflect.DeepEqual(got, tc.words) {
+				t.Errorf("\nParseName(%q)\nwant -> %q\ngot  -> %q",
+					tc.name, tc.words, got)
 			}
 		})
 	}
 }
 
-const twoLines = `
-003D;EQUALS SIGN;Sm;0;ON;;;;;N;;;;;
-003E;GREATER-THAN SIGN;Sm;0;ON;;;;;Y;;;;;
-`
-
 func TestBuildIndex_twoLines(t *testing.T) {
-	index := buildIndex(strings.NewReader(twoLines))
-	wantChars := map[rune]string{
-		'=': "EQUALS SIGN",
-		'>': "GREATER-THAN SIGN",
-	}
-	wantWords := map[string]runeset.Set{
+	// 003D;EQUALS SIGN;Sm;0;ON;;;;;N;;;;;
+	// 003E;GREATER-THAN SIGN;Sm;0;ON;;;;;Y;;;;;
+	index := buildIndex(0x3D, 0x3E)
+	wantWords := Index{
 		"EQUALS":  runeset.Make('='),
 		"GREATER": runeset.Make('>'),
 		"THAN":    runeset.Make('>'),
 		"SIGN":    runeset.Make('=', '>'),
 	}
-	if !reflect.DeepEqual(wantChars, index.Chars) {
-		t.Errorf("want: %v\n got: %v", wantChars, index.Chars)
-	}
-	if !reflect.DeepEqual(wantWords, index.Words) {
-		t.Errorf("want: %v\n got: %v", wantWords, index.Words)
+	if !reflect.DeepEqual(wantWords, index) {
+		t.Errorf("want: %v\n got: %v", wantWords, index)
 	}
 }
 
-const threeLines = `
-0041;LATIN CAPITAL LETTER A;Lu;0;L;;;;;N;;;;0061;
-0042;LATIN CAPITAL LETTER B;Lu;0;L;;;;;N;;;;0062;
-0043;LATIN CAPITAL LETTER C;Lu;0;L;;;;;N;;;;0063;
-`
-
 func TestBuildIndex_threeLines(t *testing.T) {
-	index := buildIndex(strings.NewReader(threeLines))
-	wantChars := map[rune]string{
-		'A': "LATIN CAPITAL LETTER A",
-		'B': "LATIN CAPITAL LETTER B",
-		'C': "LATIN CAPITAL LETTER C",
-	}
-	wantWords := map[string]runeset.Set{
+	// 0041;LATIN CAPITAL LETTER A;Lu;0;L;;;;;N;;;;0061;
+	// 0042;LATIN CAPITAL LETTER B;Lu;0;L;;;;;N;;;;0062;
+	// 0043;LATIN CAPITAL LETTER C;Lu;0;L;;;;;N;;;;0063;
+	index := buildIndex(0x41, 0x43)
+	wantWords := Index{
 		"A":       runeset.Make('A'),
 		"B":       runeset.Make('B'),
 		"C":       runeset.Make('C'),
@@ -105,37 +75,21 @@ func TestBuildIndex_threeLines(t *testing.T) {
 		"CAPITAL": runeset.MakeFromString("ABC"),
 		"LETTER":  runeset.MakeFromString("ABC"),
 	}
-	if !reflect.DeepEqual(wantChars, index.Chars) {
-		t.Errorf("want: %v\n got: %v", wantChars, index.Chars)
-	}
-	if !reflect.DeepEqual(wantWords, index.Words) {
-		t.Errorf("want: %v\n got: %v", wantWords, index.Words)
+	if !reflect.DeepEqual(wantWords, index) {
+		t.Errorf("want: %v\n got: %v", wantWords, index)
 	}
 }
 
 var registeredSign rune = 0xAE // ®
 
-func TestUnicodeDataIndex_Chars(t *testing.T) {
-	index := BuildIndex()
-	wantChars := 30000
-	if len(index.Chars) < wantChars {
-		t.Errorf("len(index.Chars) < %d\t got: %d", wantChars, len(index.Chars))
-	}
-	wantName := "REGISTERED SIGN (REGISTERED TRADE MARK SIGN)"
-	gotName := index.Chars[registeredSign]
-	if wantName != gotName {
-		t.Errorf("index.Chars[%q]\nwant: %q\n got: %q", registeredSign, wantName, gotName)
-	}
-}
-
 func TestUnicodeDataIndex_Words(t *testing.T) {
 	index := BuildIndex()
 	wantWords := 10000
-	if len(index.Words) < wantWords {
-		t.Errorf("len(index.Chars) < %d\t got: %d", wantWords, len(index.Words))
+	if len(index) < wantWords {
+		t.Errorf("len(index.Chars) < %d\t got: %d", wantWords, len(index))
 	}
 	wantSet := runeset.Make(registeredSign)
-	gotSet := index.Words["REGISTERED"]
+	gotSet := index["REGISTERED"]
 	if !reflect.DeepEqual(wantSet, gotSet) {
 		t.Errorf("want: %v\t got: %v", wantSet, gotSet)
 	}

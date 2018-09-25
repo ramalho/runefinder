@@ -34,8 +34,8 @@ func TestFilter_hyphenatedQuery(t *testing.T) {
 	query := "HYPHEN-MINUS"
 	want := '-'
 	got := Filter(index, query)
-	if len(got) < 6 || !got.Contains(want) {
-		t.Errorf("query: %q\t%q absent, len(got) == %d",
-			query, want, len(got))
+	if !got.Contains(want) {
+		t.Errorf("query: %q\t%q absent, got: %v",
+			query, want, got)
 	}
 }

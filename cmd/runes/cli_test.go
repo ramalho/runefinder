@@ -10,9 +10,9 @@ func Example() {
 	os.Args = []string{"", "EIGHTHS", "fraction"}
 	main()
 	// Output:
-	// U+215C	⅜	VULGAR FRACTION THREE EIGHTHS (FRACTION THREE EIGHTHS)
-	// U+215D	⅝	VULGAR FRACTION FIVE EIGHTHS (FRACTION FIVE EIGHTHS)
-	// U+215E	⅞	VULGAR FRACTION SEVEN EIGHTHS (FRACTION SEVEN EIGHTHS)
+	// U+215C	⅜	VULGAR FRACTION THREE EIGHTHS
+	// U+215D	⅝	VULGAR FRACTION FIVE EIGHTHS
+	// U+215E	⅞	VULGAR FRACTION SEVEN EIGHTHS
 	// 3 characters found
 }
 
@@ -22,7 +22,7 @@ func Example_single_result() {
 	os.Args = []string{"", "registered"}
 	main()
 	// Output:
-	// U+00AE	®	REGISTERED SIGN (REGISTERED TRADE MARK SIGN)
+	// U+00AE	®	REGISTERED SIGN
 	// 1 character found
 }
 
