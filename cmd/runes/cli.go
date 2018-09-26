@@ -14,7 +14,7 @@ func display(s runeset.Set) {
 	count := len(s)
 	for _, c := range s.Sorted() {
 		name := runenames.Name(c)
-		fmt.Printf("U+%04X\t%[1]c\t%s\n", c, name)
+		fmt.Printf("%U\t%[1]c\t%s\n", c, name)
 	}
 	var msg string
 	switch count {

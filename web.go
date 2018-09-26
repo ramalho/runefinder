@@ -62,7 +62,7 @@ func makeResults(chars runeset.Set) []RuneRecord {
 	result := []RuneRecord{}
 	for _, char := range chars.Sorted() {
 		result = append(result, RuneRecord{
-			Code: fmt.Sprintf("U+%04X", char),
+			Code: fmt.Sprintf("%U", char),
 			Char: string(char),
 			Name: getName(char),
 		})
