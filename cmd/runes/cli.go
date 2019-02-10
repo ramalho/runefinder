@@ -29,7 +29,23 @@ func display(s runeset.Set) {
 }
 
 func main() {
-	index := runefinder.BuildIndex()
-	result := runefinder.Filter(index, strings.Join(os.Args[1:], " "))
-	display(result)
+	query := strings.TrimSpace(strings.Join(os.Args[1:], " "))
+	if len(query) == 0 {
+		fmt.Println("Please provide one or more words or characters to search.")
+		return
+	}
+	nameChars := runeset.MakeFromString(" -0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+	charQuery := false
+	for _, char := range query {
+		if !nameChars.Contains(char) {
+			charQuery = true
+			break
+		}
+	}
+	if charQuery {
+		display(runeset.MakeFromString(query))
+	} else {
+		index := runefinder.BuildIndex()
+		display(runefinder.Filter(index, query))
+	}
 }

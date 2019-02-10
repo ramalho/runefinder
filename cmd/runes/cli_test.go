@@ -34,3 +34,25 @@ func Example_no_result() {
 	// Output:
 	// no character found
 }
+
+func Example_get_names() {
+	oldArgs := os.Args
+	defer func() { os.Args = oldArgs }()
+	os.Args = []string{"", "?abc"}
+	main()
+	// Output:
+	// U+003F	?	QUESTION MARK
+	// U+0061	a	LATIN SMALL LETTER A
+	// U+0062	b	LATIN SMALL LETTER B
+	// U+0063	c	LATIN SMALL LETTER C
+	// 4 characters found
+}
+
+func Example_no_args() {
+	oldArgs := os.Args
+	defer func() { os.Args = oldArgs }()
+	os.Args = []string{""}
+	main()
+	// Output:
+	// Please provide one or more words or characters to search.
+}
