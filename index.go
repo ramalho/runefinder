@@ -16,22 +16,11 @@ const (
 	lastChar  rune = 0x10FFFF // http://unicode.org/faq/utf_bom.html
 )
 
-func contains(haystack []string, needle string) bool {
-	for _, s := range haystack {
-		if s == needle {
-			return true
-		}
-	}
-	return false
-}
-
 func parseName(name string) []string {
 	name = strings.Replace(name, "-", " ", -1)
 	words := []string{}
 	for _, word := range strings.Fields(name) {
-		if !contains(words, word) {
-			words = append(words, word)
-		}
+		words = append(words, word)
 	}
 	return words
 }

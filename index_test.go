@@ -1,30 +1,11 @@
 package runefinder
 
 import (
-	"github.com/standupdev/runeset"
 	"reflect"
 	"testing"
-)
 
-func TestContains(t *testing.T) {
-	var testCases = []struct {
-		haystack []string
-		needle   string
-		want     bool
-	}{
-		{[]string{"EXCLAMATION", "MARK"}, "MARK", true},
-		{[]string{"EXCLAMATION", "MARK"}, "BEAR", false},
-		{[]string{}, "", false},
-	}
-	for _, tc := range testCases {
-		t.Run(tc.needle, func(t *testing.T) {
-			if got := contains(tc.haystack, tc.needle); tc.want != got {
-				t.Errorf("contains(%q, %q)\twant -> %t\tgot  -> %t",
-					tc.haystack, tc.needle, tc.want, got)
-			}
-		})
-	}
-}
+	"github.com/standupdev/runeset"
+)
 
 func TestParseName(t *testing.T) {
 	var testCases = []struct {

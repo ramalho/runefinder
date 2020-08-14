@@ -6,7 +6,7 @@ import (
 	"github.com/standupdev/runeset"
 )
 
-/* Filter takes a runefinder.Index and a query; returns a matching set of runes. */
+// Filter takes a runefinder.Index and a query; returns a matching set of runes.
 func Filter(index Index, query string) (result runeset.Set) {
 	query = strings.Replace(query, "-", " ", -1)
 	query = strings.ToUpper(query)

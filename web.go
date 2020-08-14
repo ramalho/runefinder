@@ -10,7 +10,7 @@ import (
 	"golang.org/x/text/unicode/runenames"
 )
 
-const sampleWords = `bismillah box cat chess circle circled 
+const sampleWords = `bismillah box cat chess circle circled
                      Egyptian face hexagram key Malayalam Roman symbol`
 
 var (
@@ -19,6 +19,7 @@ var (
 	links = makeLinks(sampleWords)
 )
 
+// Link represents an HTML link
 type Link struct {
 	Location template.URL
 	Text     string
@@ -52,6 +53,7 @@ func getName(char rune) string {
 	return name
 }
 
+// RuneRecord holds data about one Unicode character
 type RuneRecord struct {
 	Code string
 	Char string
@@ -70,6 +72,7 @@ func makeResults(chars runeset.Set) []RuneRecord {
 	return result
 }
 
+// Home handles the form in the homepage
 func Home(w http.ResponseWriter, req *http.Request) {
 	chars := runeset.Set{}
 	msg := ""
