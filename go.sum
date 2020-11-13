@@ -1,0 +1,5 @@
+github.com/standupdev/runeset v1.0.0 h1:aKS5ummq5Mc3CtXOhXdyE29mSL1/LUL9Dg0PnaV8BSQ=
+github.com/standupdev/runeset v1.0.0/go.mod h1:tmBj7QsZ/7uaayqaql2sSLpaHrWQ6MLC1IXaKU9q9To=
+golang.org/x/text v0.3.4 h1:0YWbFKbhXG/wIiuHDSKpS0Iy7FSA+u45VtBMfQcFTTc=
+golang.org/x/text v0.3.4/go.mod h1:5Zoc/QRtKVWzQhOtBMvqHzDpF6irO9z98xDceosuGiQ=
+golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
